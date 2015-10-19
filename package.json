@@ -4,11 +4,21 @@
   "description": "Node Server",
   "main": "server.js",
   "dependencies": {
-    "express": "^4.13.3"
+    "express": "^4.13.3",
+    "mongoose": "^4.1.12"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "babel": "^5.8.23",
+    "esdoc": "^0.4.1",
+    "jscs": "^2.3.4"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "format": "node_modules/.bin/jscs src/ -x -r inline; true",
+    "doc": "node_modules/.bin/esdoc -c .esdoc.json",
+    "build": "./node_modules/.bin/babel --source-maps --out-dir lib src",
+    "postbuild": "npm run doc",
+    "prestart": "npm run build",
+    "start": "node lib/server.js"
   },
   "repository": {
     "type": "git",
