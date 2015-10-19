@@ -14,11 +14,11 @@ const Service = mongoose.model('Service', serviceSchema);
 const app = express();
 app.set('json spaces', 2);
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
   res.send('Hello World!! :)');
 });
 
-app.get('/services', function(req, res) {
+app.get('/services', (req, res) => {
   Service.find({}, (err, results) => {
     if (err) {
       console.error('AN ERROR OCCURRED');
