@@ -1,3 +1,7 @@
+doc/
+lib/
+db/
+
 # Logs
 logs
 *.log
