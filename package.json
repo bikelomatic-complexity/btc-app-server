@@ -4,8 +4,13 @@
   "description": "Node Server",
   "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.14.1",
+    "cradle": "^0.6.9",
     "express": "^4.13.3",
-    "mongoose": "^4.1.12"
+    "jsonwebtoken": "^5.4.1",
+    "mongoose": "^4.1.12",
+    "morgan": "^1.6.1",
+    "nano": "^6.1.5"
   },
   "devDependencies": {
     "babel": "^5.8.23",
