@@ -13,9 +13,9 @@
     "jscs": "^2.3.4"
   },
   "scripts": {
-    "format": "node_modules/.bin/jscs src/ -x -r inline; true",
-    "doc": "node_modules/.bin/esdoc -c .esdoc.json",
-    "build": "./node_modules/.bin/babel --source-maps --out-dir lib src",
+    "format": "jscs src/ -x -r inline; true",
+    "doc": "esdoc -c .esdoc.json",
+    "build": "babel --source-maps --out-dir lib src",
     "postbuild": "npm run doc",
     "prestart": "npm run build",
     "start": "node lib/server.js"
