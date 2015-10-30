@@ -10,7 +10,10 @@
     "jsonwebtoken": "^5.4.1",
     "mongoose": "^4.1.12",
     "morgan": "^1.6.1",
-    "nano": "^6.1.5"
+    "nano": "^6.1.5",
+    "sails-couchdb-orm": "^0.10.3",
+    "underscore": "^1.8.3",
+    "waterline": "^0.10.26"
   },
   "devDependencies": {
     "babel": "^5.8.23",
