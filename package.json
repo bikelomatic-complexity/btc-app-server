@@ -22,11 +22,10 @@
   },
   "scripts": {
     "format": "jscs src/ -x -r inline; true",
-    "doc": "esdoc -c .esdoc.json",
+    "prepublish": "esdoc -c .esdoc.json",
     "build": "babel --source-maps --out-dir lib src",
-    "postbuild": "npm run doc",
     "prestart": "npm run build",
-    "start": "node lib/server.js"
+    "start": "node lib/index.js"
   },
   "repository": {
     "type": "git",
