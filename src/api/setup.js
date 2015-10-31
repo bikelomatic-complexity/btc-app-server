@@ -1,4 +1,6 @@
 import {Router} from 'express';
+
+import {User, UserCollection} from '../model/user'
 import {connection} from '../db/couch';
 import {ResponseBuilder} from '../api/response';
 
@@ -17,28 +19,42 @@ export const router = Router();
  * the database for testing purposes.
  */
 router.get('/', (req, res) => {
-  const user_docs = {docs: [ {
-    _id: 'barry@example.com',
-    name: 'Barry Allen',
-    email: 'barry@example.com',
-    password: 'flash',
-    moderator: true
-  }, {
-    _id: 'ollie@example.com',
-    name: 'Oliver Queen',
-    email: 'ollie@example.com',
-    password: 'arrow',
-    moderator: false
-  }, {
-    _id: 'kat@example.com',
-    name: 'Selina Kyle',
-    email: 'kat@example.com',
-    password: 'catwoman',
-    moderator: false
-  } ] };
+  new UserCollection().fetch({
+    success: users => {
+      new Promise((resolve, reject) => {
+        if(users.length === 0) resolve(users);
 
-  users.bulk(user_docs, { 'all_or_nothing': true }, (err, body) => {
-    res.status(200).end();
+        let user;
+        while(user = users.pop()) {
+          user.destroy({
+            wait: true,
+            success: model => {
+              if(users.length === 0) resolve(users);
+            }
+          });
+        }
+      }).then(users => {
+        users.create({
+          id: 'barry@example.com',
+          name: 'Barry Allen',
+          password: 'flash',
+          moderator: true
+        });
+        users.create({
+          id: 'ollie@example.com',
+          name: 'Oliver Queen',
+          password: 'arrow',
+          moderator: false
+        });
+        users.create({
+          id: 'kat@example.com',
+          name: 'Selina Kyle',
+          password: 'catwoman',
+          moderator: false
+        });
+      });
+    },
+    error: err => {}
   });
 
   const point_docs = {docs: [ {
@@ -63,7 +79,7 @@ router.get('/', (req, res) => {
     lng: -114.006738
   } ] };
 
-  points.bulk(point_docs, { 'all_or_nothing': true }, (err, body) => {
-    res.status(200).end();
-  });
+  points.bulk(point_docs, { 'all_or_nothing': true }, (err, body) => { });
+
+  res.status(200).end();
 });

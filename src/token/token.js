@@ -6,21 +6,29 @@ import {connection} from '../db/couch.js'
 const users = connection.db.use('users');
 const secret = 'secret';
 
-export function create(user_doc_id) {
-  return new Promise((resolve, reject) => {
-    users.get(user_doc_id, { revs_info: false }, (err, user) => {
-      if(err) reject(err);
-
-      const token = jwt.sign(_(user).pick(["email", "moderator"]), secret, {
-        expiresIn: '15m',
-        algorithm: 'HS256',
-        issuer: 'example.com',
-        subject: 'user api token'
-      });
-
-      resolve(token);
-    });
+export function createToken(user) {
+  const token = jwt.sign(user.tokenize(), secret, {
+    expiresIn: '15m',
+    algorithm: 'HS256',
+    issuer: 'localhost',
+    subject: (user.moderator ? 'moderator' : 'cyclist') + 'token'
   });
+  return token;
+
+  // return new Promise((resolve, reject) => {
+  //   users.get(user_doc_id, { revs_info: false }, (err, user) => {
+  //     if(err) reject(err);
+  //
+  //     const token = jwt.sign(_(user).pick(["email", "moderator"]), secret, {
+  //       expiresIn: '15m',
+  //       algorithm: 'HS256',
+  //       issuer: 'example.com',
+  //       subject: 'user api token'
+  //     });
+  //
+  //     resolve(token);
+  //   });
+  // });
 }
 
 export function verify(req, res, next) {
