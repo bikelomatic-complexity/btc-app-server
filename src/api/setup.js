@@ -16,22 +16,24 @@ export const router = Router();
  * the database for testing purposes.
  */
 router.get('/', (req, res) => {
-  const users = [ {
+  const docs = {docs: [ {
     name: 'Barry Allen',
+    email: 'barry@example.com',
     password: 'flash',
     admin: true
   }, {
     name: 'Oliver Queen',
+    email: 'ollie@example.com',
     password: 'arrow',
     admin: false
   }, {
     name: 'Selina Kyle',
+    email: 'kat@example.com',
     password: 'catwoman',
     admin: false
-  } ];
+  } ] };
 
-  db.save(bulk, { 'all_or_nothing': true }, (err, body) => {
-    const builder = new ResponseBuilder().method('GET');
-    builder.success(true).send(res);
+  users.bulk(docs, { 'all_or_nothing': true }, (err, body) => {
+    res.status(200).end();
   });
 });
