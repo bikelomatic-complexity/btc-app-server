@@ -18,16 +18,19 @@ export const router = Router();
  */
 router.get('/', (req, res) => {
   const user_docs = {docs: [ {
+    _id: 'barry@example.com',
     name: 'Barry Allen',
     email: 'barry@example.com',
     password: 'flash',
     moderator: true
   }, {
+    _id: 'ollie@example.com',
     name: 'Oliver Queen',
     email: 'ollie@example.com',
     password: 'arrow',
     moderator: false
   }, {
+    _id: 'kat@example.com',
     name: 'Selina Kyle',
     email: 'kat@example.com',
     password: 'catwoman',

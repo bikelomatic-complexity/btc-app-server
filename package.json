@@ -4,6 +4,8 @@
   "description": "Node Server",
   "main": "server.js",
   "dependencies": {
+    "backbone": "^1.2.3",
+    "backbone-couch": "^2.0.1",
     "body-parser": "^1.14.1",
     "cradle": "^0.6.9",
     "express": "^4.13.3",
@@ -11,6 +13,7 @@
     "mongoose": "^4.1.12",
     "morgan": "^1.6.1",
     "nano": "^6.1.5",
+    "nodemailer": "^1.8.0",
     "sails-couchdb-orm": "^0.10.3",
     "underscore": "^1.8.3",
     "waterline": "^0.10.26"
