@@ -24,7 +24,7 @@ export function create(user_doc_id) {
 }
 
 export function verify(req, res, next) {
-  const token = req.headers['X-Access-Token'];
+  const token = req.headers['x-access-token'];
   if(token) {
     jwt.verify(token, secret, (err, decoded) => {
       if(err) {
