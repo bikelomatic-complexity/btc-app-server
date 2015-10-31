@@ -1,13 +1,8 @@
 import express from 'express';
-import nano from 'nano';
 
 import {User, UserCollection} from '../model/user';
-
-import {connection} from '../db/couch';
-import {createToken} from '../token/token';
+import {create} from '../token/token';
 import {ResponseBuilder} from '../api/response';
-
-const users = connection.db.use('users');
 
 /**
  * The authentication router's root allows the client to obtain a JWT for
@@ -38,7 +33,7 @@ router.post('/', (req, res) => {
     success: user => {
       // If user is found and password is right, create a token
       if(user.matches({ password: password })) {
-        builder.status(true).set('token', createToken(user)).send(res);
+        builder.status(true).set('token', create(user)).send(res);
       } else {
         fail.message('wrong password').send(res);
       }

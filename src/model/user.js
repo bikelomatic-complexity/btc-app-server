@@ -1,12 +1,6 @@
 import {Model, Collection} from 'backbone';
-import connector from 'backbone-couch';
 import {pick} from 'underscore';
-
-const couch = connector({
-  host: '127.0.0.1',
-  port: '5984',
-  name: 'users_test'
-});
+import {connect} from '../db/couch';
 
 export const User = Model.extend({
   url: function() { return '/users/' + this.id; },
@@ -19,6 +13,7 @@ export const UserCollection = Collection.extend({
   url: '/users'
 })
 
+const couch = connect('users_test');
 couch.install(err => {
   User.prototype.sync = couch.sync;
   UserCollection.prototype.sync = couch.sync;

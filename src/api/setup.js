@@ -4,7 +4,6 @@ import {User, UserCollection} from '../model/user'
 import {connection} from '../db/couch';
 import {ResponseBuilder} from '../api/response';
 
-const users = connection.db.use('users');
 const points = connection.db.use('points');
 
 /**
