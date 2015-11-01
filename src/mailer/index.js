@@ -10,8 +10,7 @@ export function mail(registrant, token) {
   const {first, last} = registrant.attributes;
   transporter.sendMail({
     from: mailAccount,
-    // to: registrant.get('email'),
-    to: 'sk.kroh@gmail.com',
+    to: registrant.get('email'),
     subject: subject,
     html: `
 <html>
