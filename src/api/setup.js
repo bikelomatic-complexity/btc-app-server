@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import uuid from 'node-uuid';
 
 import { User, UserCollection } from '../model/user';
 import { Point, PointCollection } from '../model/point';
@@ -75,23 +76,26 @@ router.get( '/', ( req, res ) => {
       } ).then( points => {
         console.log( 'create' );
         points.create( {
+          id: uuid.v4(),
           name: 'Adventure Cycling Headquarters',
-          type: 'Bicyle Travel Mecca',
+          type: 'poi',
           address: '150 E Pine Street, Missoula, Montana 59802',
           lat: 46.873107,
           lng: -113.992082
         } );
         points.create( {
+          id: uuid.v4(),
           name: 'Missoula KOA',
-          type: 'Campground',
+          type: 'campground',
           address: '3450 Tina Avenue, Missoula, Montana 59808',
           phone: 18005625366,
           lat: 46.896705,
           lng: -114.042341
         } );
         points.create( {
+          id: uuid.v4(),
           name: 'The Bike Doctor',
-          type: 'Bicycle Shop',
+          type: 'bike shop',
           address: '1101 Toole Avenue, Missoula, Montana 59802',
           phone: 14067215357,
           lat: 46.877831,
