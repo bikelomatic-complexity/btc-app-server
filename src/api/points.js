@@ -1,4 +1,6 @@
 import express from 'express';
+import uuid from 'node-uuid';
+import { extend } from 'underscore';
 
 import { PointCollection } from '../model/point';
 import { ResponseBuilder } from '../api/response';
@@ -26,5 +28,22 @@ router.get( '/', ( req, res ) => {
     error: err => {
       builder.status( false ).message( err ).send( res );
     }
-  } )
+  } );
+} );
+
+router.post( '/', ( req, res ) => {
+  const builder = new ResponseBuilder().method( 'post' );
+
+  const fields = extend( req.body, { id: uuid.v4() } );
+  const point = new PointCollection().create( fields, {
+    success: point => {
+      builder.status( true ).json( point ).send( res );
+    },
+    error: err => {
+      builder.status( false ).message( err ).send( res );
+    }
+  } );
+  if ( point.validationError ) {
+    builder.status( false ).message( point.validationError ).send( res );
+  }
 } );
