@@ -12,7 +12,7 @@ export function create(user) {
 }
 
 export function verify(req, res, next) {
-  const token = req.headers['x-access-token'];
+  const token = req.headers['x-access-token'] || req.query.token;
   if(token) {
     jwt.verify(token, secret, (err, decoded) => {
       if(err) {

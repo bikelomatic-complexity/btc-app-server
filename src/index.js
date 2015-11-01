@@ -11,9 +11,6 @@ app.set('json spaces', 2);
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded( {
-  extended: false
-}));
 
 app.get('/', (req, res) => {
   res.send('Hello! The API is at http://localhost:' + port + '/api');

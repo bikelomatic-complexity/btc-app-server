@@ -29,10 +29,10 @@ router.post('/', (req, res) => {
   const builder = new ResponseBuilder().method('post');
   const fail = builder.status(false).message('Authentication failed: ');
 
-  new User({ id: email }).fetch({
+  new User({ 'email': email }).fetch({
     success: user => {
       // If user is found and password is right, create a token
-      if(user.matches({ password: password })) {
+      if(user.matches({ 'password': password })) {
         builder.status(true).set('token', create(user)).send(res);
       } else {
         fail.message('wrong password').send(res);

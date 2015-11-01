@@ -1,76 +1,71 @@
 import express from 'express';
-import {intersection, difference, keys, pick} from 'underscore';
-import nodemailer from 'nodemailer';
 
 import {Registrant, RegistrantCollection} from '../model/registrant';
 import {create} from '../token/token';
 import {ResponseBuilder} from '../api/response';
-
-const transporter = nodemailer.createTransport();
+import {mail} from '../mailer';
+import {verify} from '../token/token';
 
 /**
- * The authentication router's root allows the client to obtain a JWT for
- * use with all subsequent api calls.
- * @todo authenticate with OAuth providers
+ * Routes to allow a new user to register with the system.
  */
 export const router = express.Router();
 
 /**
+ * Initiate the registration process. If the user information is valid,
+ * email a token to the user, and save a record in the 'registrants' db.
+ * The user will visit /api/register/confirm by clicking our link.
+ *
  * @example
- * POST /api/authenticate
+ * POST /api/register
  * {
- *   "email": "skroob@spaceballs.com",
- *   "password": "123456"
- * }
- * Response:
- * {
- *   "token": "aaaaaaaaaa.bbbbbbbbbbb.cccccccccccc"
+ *   "email": "barry@example.com",
+ *   "password": "flash",
+ *   "first": "Barry",
+ *   "last": "Allen",
+ *   "username": ""
  * }
  */
 router.post('/', (req, res) => {
   const builder = new ResponseBuilder().method('post');
-  const fail = builder.status(false);
 
-  console.log(req.body);
-  const needed = ['email', 'username', 'password', 'first', 'last'];
-  const fields = intersection(needed, keys(req.body));
-  console.log(fields);
-  const missing = difference(needed, fields);
-  console.log(missing);
-  if(missing.length > 0) {
-    fail.message('Missing ' + missing.join(', ')).send(res);
+  const registrant = new Registrant(req.body);
+
+  const errors = registrant.validate();
+  if(errors) {
+    builder.status(false).set('errors', errors).send(res);
   }
 
-  const registrant = new Registrant(pick(req.body, fields));
+  // Mail the token after the db insert succeeds
   const token = create(registrant);
+  registrant.save({ 'token': token }, {
+    success: (registrant, response, options) => {
+      res.status(200).end();
+      mail(registrant, token);
+    },
+    error: err => {
+      builder.status(false).message(err).send(res);
+    }
+  });
+});
 
-  new Promise((resolve, reject) => {
-    registrant.save({ id: token }, {
-      success: (model, response, options) => {
-        res.status(200).end();
-        resolve(model);
-      },
-      error: err => {
-        fail.message(err).send(res);
-        reject(err);
-      }
-    });
-  }).then(model => {
+router.use(verify);
+router.get('/', (req, res) => {
+  const builder = new ResponseBuilder().method('get');
 
-    transporter.sendMail({
-      from: 'skroob@spaceballs.com',
-      to: 'sk.kroh@gmail.com',
-      subject: 'Activate your account with Adventure Cycling',
-      text: token,
-      html: `
-<html>
-  <body>
-    <a href='http://localhost:8080/api/register/confirm?token=${token}'>Click to activate</a>
-  </body>
-</html>`
-    });
+  const token = req.query.token;
+  console.log(token);
 
-  }).catch(err => {
-      console.log('bloop');
+  new Registrant({ 'token': token }).fetch({
+    success: (registrant, response, options) => {
+      registrant.confirm().then(() => {
+        builder.status(true).message('you have registered').send(res);
+      }).catch(err => {
+        builder.status(false).message(err).send(res);
+      });
+    },
+    error: err => {
+      builder.status(false).message('you have not registered yet').send(res);
+    }
   });
 });

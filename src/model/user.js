@@ -1,11 +1,14 @@
 import {Model, Collection} from 'backbone';
-import {pick} from 'underscore';
+import {pick, difference, intersection, keys} from 'underscore';
 import {connect} from '../db/couch';
 
 export const User = Model.extend({
-  url: function() { return '/users/' + this.id; },
+  url: function() { return '/users/' + this.get('email'); },
+
+  idAttribute: 'email',
+
   tokenize: function() {
-    return pick(this.attributes, ['id', 'moderator']);
+    return pick(this.attributes, ['email', 'moderator']);
   }
 });
 export const UserCollection = Collection.extend({
@@ -13,7 +16,7 @@ export const UserCollection = Collection.extend({
   url: '/users'
 })
 
-const couch = connect('users_test');
+const couch = connect('users');
 couch.install(err => {
   User.prototype.sync = couch.sync;
   UserCollection.prototype.sync = couch.sync;
