@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer';
-import {mailAccount, api} from '../config';
+import { mailAccount, api } from '../config';
 
 const subject = 'Register your bicycle touring digital companion account';
 
@@ -7,11 +7,11 @@ const subject = 'Register your bicycle touring digital companion account';
 const transporter = nodemailer.createTransport();
 
 /** @todo Use handlebars or jade for email templating */
-export function mail(registrant, token) {
+export function mail( registrant, token ) {
   const {first, last} = registrant.attributes;
-  transporter.sendMail({
+  transporter.sendMail( {
     from: mailAccount,
-    to: registrant.get('email'),
+    to: registrant.get( 'email' ),
     subject: subject,
     html: `
 <html>
@@ -22,5 +22,5 @@ export function mail(registrant, token) {
     account</p>
   </body>
 </html>`
-  });
+  } );
 }

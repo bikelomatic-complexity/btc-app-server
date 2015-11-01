@@ -1,7 +1,7 @@
 import express from 'express';
 
-import {PointCollection} from '../model/point';
-import {ResponseBuilder} from '../api/response';
+import { PointCollection } from '../model/point';
+import { ResponseBuilder } from '../api/response';
 
 /** Routes pertaining to the points list */
 export const router = express.Router();
@@ -17,14 +17,14 @@ export const router = express.Router();
  *   "lng": -113.992082
  * } ]
  */
-router.get('/', (req, res) => {
-  const builder = new ResponseBuilder().method('get');
-  new PointCollection().fetch({
+router.get( '/', ( req, res ) => {
+  const builder = new ResponseBuilder().method( 'get' );
+  new PointCollection().fetch( {
     success: points => {
-      builder.status(true).json(points).send(res);
+      builder.status( true ).json( points ).send( res );
     },
     error: err => {
-      builder.status(false).message(err).send(res);
+      builder.status( false ).message( err ).send( res );
     }
-  })
-});
+  } )
+} );

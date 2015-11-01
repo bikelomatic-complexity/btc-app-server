@@ -5,10 +5,10 @@ import _ from 'underscore';
  * method. These codes don't always apply, so you can ovveride them in the
  * ResponseBuilder.
  */
-const methodMap = new Map([ [
+const methodMap = new Map( [ [
   'put', {
     success: 201, // Created
-    failure: 400  // Bad request
+    failure: 400 // Bad request
   }
 ], [
   'get', {
@@ -25,7 +25,7 @@ const methodMap = new Map([ [
     success: 200,
     failure: 400
   }
-] ]);
+] ] );
 
 /**
  * Allows the caller to accumulate response data as it is learned. The
@@ -40,10 +40,10 @@ export class ResponseBuilder {
   /**
    * @param {ResponseBuilder} other - if specified, new builder will be a copy
    */
-  constructor(other) {
-    if(other) {
+  constructor( other ) {
+    if ( other ) {
       /** The body of the HTTP response, in json */
-      this.body = _(other.body).clone(); // Need to deep clone
+      this.body = _( other.body ).clone(); // Need to deep clone
       /** Will be true if the caller specifies an exact HTTP status code */
       this.forceCode = other.forceCode;
       /** HTTP response code */
@@ -57,8 +57,8 @@ export class ResponseBuilder {
   }
 
   /** If you specify an HTTP method, this.status() will apply a default code */
-  method(method) {
-    const obj = new ResponseBuilder(this);
+  method( method ) {
+    const obj = new ResponseBuilder( this );
     obj.method = method;
     return obj;
   }
@@ -67,12 +67,12 @@ export class ResponseBuilder {
    * If an HTTP verb has been specified, this method will apply a default code
    * @param {boolean} success - true if the operation succeeded
    */
-  status(success) {
-    const obj = new ResponseBuilder(this);
-    if(!this.forceCode && this.method) {
-      const codes = methodMap.get(this.method);
+  status( success ) {
+    const obj = new ResponseBuilder( this );
+    if ( !this.forceCode && this.method ) {
+      const codes = methodMap.get( this.method );
 
-      if(success) {
+      if ( success ) {
         obj.code = codes.success;
       } else {
         obj.code = codes.failure;
@@ -82,8 +82,8 @@ export class ResponseBuilder {
   }
 
   /** Specify the HTTP status code */
-  statusCode(code) {
-    const obj = new ResponseBuilder(this);
+  statusCode( code ) {
+    const obj = new ResponseBuilder( this );
     obj.code = code;
     obj.foreCode = true;
     return obj;
@@ -93,9 +93,9 @@ export class ResponseBuilder {
    * Specify a message to return in the body. Messages are appended in
    * repeated calls.
    */
-  message(message) {
-    const obj = new ResponseBuilder(this);
-    if(this.body.message) {
+  message( message ) {
+    const obj = new ResponseBuilder( this );
+    if ( this.body.message ) {
       obj.body.message += message;
     } else {
       obj.body.message = message;
@@ -104,15 +104,15 @@ export class ResponseBuilder {
   }
 
   /** Add a key/value pair to the body */
-  set(key, value) {
-    const obj = new ResponseBuilder(this);
-    obj.body[key] = value;
+  set( key, value ) {
+    const obj = new ResponseBuilder( this );
+    obj.body[ key ] = value;
     return obj;
   }
 
   /** replace the entire json body */
-  json(body) {
-    const obj = new ResponseBuilder(this);
+  json( body ) {
+    const obj = new ResponseBuilder( this );
     obj.body = body;
     return obj;
   }
@@ -127,7 +127,7 @@ export class ResponseBuilder {
    * and send the json body.
    * @param {Object} res - an Express 4.0 response object
    */
-  send(res) {
-    res.status(this.code).json(this.build())
+  send( res ) {
+    res.status( this.code ).json( this.build() )
   }
 }

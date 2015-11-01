@@ -1,8 +1,8 @@
 import express from 'express';
 
-import {User} from '../model/user';
-import {create} from '../token/token';
-import {ResponseBuilder} from '../api/response';
+import { User } from '../model/user';
+import { create } from '../token/token';
+import { ResponseBuilder } from '../api/response';
 
 /** holds authentication routes */
 export const router = express.Router();
@@ -22,23 +22,23 @@ export const router = express.Router();
  *   "token": "aaaaaaaaaa.bbbbbbbbbbb.cccccccccccc"
  * }
  */
-router.post('/', (req, res) => {
+router.post( '/', ( req, res ) => {
   const {email, password} = req.body;
 
-  const builder = new ResponseBuilder().method('post');
-  const fail = builder.status(false).message('Authentication failed: ');
+  const builder = new ResponseBuilder().method( 'post' );
+  const fail = builder.status( false ).message( 'Authentication failed: ' );
 
-  new User({ 'email': email }).fetch({
+  new User( { 'email': email } ).fetch( {
     success: user => {
       // If user is found and password is right, create a token
-      if(user.matches({ 'password': password })) {
-        builder.status(true).set('token', create(user)).send(res);
+      if ( user.matches( { 'password': password } ) ) {
+        builder.status( true ).set( 'token', create( user ) ).send( res );
       } else {
-        fail.message('wrong password').send(res);
+        fail.message( 'wrong password' ).send( res );
       }
     },
     error: err => {
-      fail.message('user not in system').send(res);
+      fail.message( 'user not in system' ).send( res );
     }
-  });
-});
+  } );
+} );

@@ -8,6 +8,7 @@
     "backbone-couch": "^2.0.1",
     "backbone-validation": "^0.11.5",
     "body-parser": "^1.14.1",
+    "esformatter": "^0.8.1",
     "express": "^4.13.3",
     "jsonwebtoken": "^5.4.1",
     "morgan": "^1.6.1",
@@ -17,10 +18,12 @@
   "devDependencies": {
     "babel": "^5.8.23",
     "esdoc": "^0.4.1",
-    "jscs": "^2.3.4"
+    "eslint": "^1.8.0",
+    "eslint-plugin-react": "^3.6.3"
   },
   "scripts": {
-    "format": "jscs src/ -x -r inline; true",
+    "format": "esformatter -i src/**/*.js",
+    "lint": "eslint src/**/*.js & true",
     "doc": "esdoc -c .esdoc.json",
     "build": "babel --source-maps --out-dir lib src",
     "prestart": "npm run build",
