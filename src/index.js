@@ -2,7 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 
-import {port} from './config';
+import {port, api as path} from './config';
 
 import {router as api} from './api';
 
@@ -13,7 +13,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.get('/', (req, res) => {
-  res.send('Hello! The API is at http://localhost:' + port + '/api');
+  res.send(`Hello! The API is at ${path}`);
 });
 
 app.use('/api', api);

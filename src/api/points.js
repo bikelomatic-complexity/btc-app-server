@@ -1,43 +1,30 @@
 import express from 'express';
-import nano from 'nano';
 
-import {connection} from '../db/couch';
+import {PointCollection} from '../model/point';
 import {ResponseBuilder} from '../api/response';
 
-const pointsdb = connection.db.use('points');
-
-/**
- * The authentication router's root allows the client to obtain a JWT for
- * use with all subsequent api calls.
- * @todo authenticate with OAuth providers
- */
+/** Routes pertaining to the points list */
 export const router = express.Router();
 
 /**
  * @example
- * POST /api/authenticate
- * {
- *   "email": "skroob@spaceballs.com",
- *   "password": "123456"
- * }
- * Response:
- * {
- *   "token": "aaaaaaaaaa.bbbbbbbbbbb.cccccccccccc"
- * }
+ * GET /api/points
+ * [ {
+ *   "name": "Adventure Cycling Headquarters",
+ *   "type": "Bicycle Travel Mecca",
+ *   "address": "150 E Pine Street, Missoula, Montana 59802",
+ *   "lat": 46.873107,
+ *   "lng": -113.992082
+ * } ]
  */
 router.get('/', (req, res) => {
-  const builder = new ResponseBuilder().method('post');
-
-  const moderator = req.payload.moderator;
-  if(!moderator) {
-    builder.status(false).message('Only admins may view points').send(res);
-  }
-
-  pointsdb.view('view', 'by_type', {limit: 10}, (err, body) => {
-    // TODO: What will generate this error?
-    if(err) throw err;
-
-    const points = body.rows.map(row => row.value);
-    builder.status(true).set('points', points).send(res);
-  });
+  const builder = new ResponseBuilder().method('get');
+  new PointCollection().fetch({
+    success: points => {
+      builder.status(true).json(points).send(res);
+    },
+    error: err => {
+      builder.status(false).message(err).send(res);
+    }
+  })
 });

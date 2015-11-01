@@ -9,12 +9,9 @@
     "backbone-validation": "^0.11.5",
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
-    "fs": "0.0.2",
     "jsonwebtoken": "^5.4.1",
     "morgan": "^1.6.1",
-    "nano": "^6.1.5",
     "nodemailer": "^1.8.0",
-    "nodemailer-express-handlebars": "^1.0.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -24,7 +21,7 @@
   },
   "scripts": {
     "format": "jscs src/ -x -r inline; true",
-    "prepublish": "esdoc -c .esdoc.json",
+    "doc": "esdoc -c .esdoc.json",
     "build": "babel --source-maps --out-dir lib src",
     "prestart": "npm run build",
     "start": "node lib/index.js"

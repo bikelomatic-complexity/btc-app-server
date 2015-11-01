@@ -6,6 +6,7 @@ const subject = 'Register your bicycle touring digital companion account';
 /** @todo The default transporter is unreliable */
 const transporter = nodemailer.createTransport();
 
+/** @todo Use handlebars or jade for email templating */
 export function mail(registrant, token) {
   const {first, last} = registrant.attributes;
   transporter.sendMail({

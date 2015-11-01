@@ -1,5 +1,4 @@
 import {Model, Collection} from 'backbone';
-import {pick, difference, intersection, keys} from 'underscore';
 import {connect} from '../db/couch';
 
 export const User = Model.extend({
@@ -8,8 +7,8 @@ export const User = Model.extend({
   idAttribute: 'email',
 
   tokenize: function() {
-    return pick(this.attributes, ['email', 'moderator']);
-  }
+    return this.pick(['email', 'moderator']);
+  }  
 });
 export const UserCollection = Collection.extend({
   model: User,

@@ -1,24 +1,23 @@
 import express from 'express';
 
-import {User, UserCollection} from '../model/user';
+import {User} from '../model/user';
 import {create} from '../token/token';
 import {ResponseBuilder} from '../api/response';
 
-/**
- * The authentication router's root allows the client to obtain a JWT for
- * use with all subsequent api calls.
- * @todo authenticate with OAuth providers
- */
+/** holds authentication routes */
 export const router = express.Router();
 
 /**
+ * Authenticates user via their username and password and returns an api
+ * token if successful.
+ *
  * @example
  * POST /api/authenticate
  * {
  *   "email": "skroob@spaceballs.com",
  *   "password": "123456"
  * }
- * Response:
+ * ---
  * {
  *   "token": "aaaaaaaaaa.bbbbbbbbbbb.cccccccccccc"
  * }
@@ -39,7 +38,7 @@ router.post('/', (req, res) => {
       }
     },
     error: err => {
-      fail.message('email not in system').send(res);
+      fail.message('user not in system').send(res);
     }
   });
 });

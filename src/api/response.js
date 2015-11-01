@@ -110,6 +110,13 @@ export class ResponseBuilder {
     return obj;
   }
 
+  /** replace the entire json body */
+  json(body) {
+    const obj = new ResponseBuilder(this);
+    obj.body = body;
+    return obj;
+  }
+
   /** @return the json body */
   build() {
     return this.body;
