@@ -27,7 +27,7 @@
   },
   "scripts": {
     "format": "esformatter -i '*(src|test)/**/*.js'",
-    "lint": "eslint '*(src|test)/**/*.js' & true",
+    "lint": "eslint '*(src|test)/**/*.js' || true",
     "doc": "esdoc -c .esdoc.json",
     "build": "babel-compile src:lib test:.test",
     "prestart": "npm run build",
