@@ -1,4 +1,8 @@
 {
+  "plugins": [
+    "esformatter-ignore"
+  ],
+  
   "preset" : "default",
 
   "indent" : {

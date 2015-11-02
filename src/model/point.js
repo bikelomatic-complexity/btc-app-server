@@ -1,8 +1,9 @@
 import { Model, Collection } from 'backbone';
 import { contains, has } from 'underscore';
+import jsen from 'jsen';
 import { connect } from '../db/couch';
 
-export const TYPES = [
+const POINT_TYPES = [
   'bar',
   'bed and breakfast',
   'bike shop',
@@ -17,7 +18,7 @@ export const TYPES = [
   'rest area',
   'restroom',
   'restaurant',
-  'state pack',
+  'state park',
   'museum',
   'information',
   'airport',
@@ -35,23 +36,37 @@ export const Point = Model.extend( {
   },
 
   validate: function( attributes, options ) {
-    if ( !has( attributes, 'name' ) ) {
-      return 'Name required';
-    } else if ( !has( attributes, 'type' ) ) {
-      return 'Type required';
-    } else if ( !contains( TYPES, attributes.type ) ) {
-      return 'Type must be supported by btdc';
-    } else if ( !has( attributes, 'lat' ) ) {
-      return 'Lat required';
-    } else if ( !isFinite( attributes.lat ) ) {
-      return 'Lat must be a finite number';
-    } else if ( !has( attributes, 'lng' ) ) {
-      return 'Lng required';
-    } else if ( !isFinite( attributes.lng ) ) {
-      return 'Lng must be a finite number';
+    if(!Point.validator(attributes)) {
+      return Point.validator.errors;
     }
   }
+}, {
+  TYPES: POINT_TYPES,
+
+  validator: jsen({
+    type: 'object',
+    required: [ 'name', 'type', 'lat', 'lng' ],
+    properties: {
+      name: {
+        type: 'string',
+        requiredMessage: 'Name is required'
+      },
+      type: {
+        type: 'string',
+        enum: POINT_TYPES,
+        invalidMessage: `Type must be one of [${POINT_TYPES.toString()}]`
+      },
+      lat: {
+        type: 'number',
+      },
+      lng: {
+        type: 'number'
+      }
+    },
+    additionalProperties: false
+  }, { greedy: true })
 } );
+
 export const PointCollection = Collection.extend( {
   model: Point,
   url: '/points'

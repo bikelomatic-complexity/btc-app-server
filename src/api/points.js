@@ -44,6 +44,6 @@ router.post( '/', ( req, res ) => {
     }
   } );
   if ( point.validationError ) {
-    builder.status( false ).message( point.validationError ).send( res );
+    builder.status( false ).errors( point.validationError ).send( res );
   }
 } );
