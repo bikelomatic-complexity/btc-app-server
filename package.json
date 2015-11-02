@@ -29,7 +29,7 @@
     "format": "esformatter -i '*(src|test)/**/*.js'",
     "lint": "eslint '*(src|test)/**/*.js' || true",
     "doc": "esdoc -c .esdoc.json",
-    "build": "babel-compile src:lib test:.test",
+    "build": "babel-compile src:lib test:.test || true",
     "prestart": "npm run build",
     "start": "node lib/index.js",
     "pretest": "npm run build",
