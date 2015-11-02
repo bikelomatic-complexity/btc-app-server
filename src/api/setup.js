@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import uuid from 'node-uuid';
 
-import { User, UserCollection } from '../model/user';
-import { Point, PointCollection } from '../model/point';
-import { ResponseBuilder } from '../api/response';
+import { UserCollection } from '../model/user';
+import { PointCollection } from '../model/point';
 
 /**
  * The authentication router's root allows the client to obtain a JWT for
@@ -22,8 +21,8 @@ router.get( '/', ( req, res ) => {
       new Promise( ( resolve, reject ) => {
         if ( users.length === 0 ) resolve( users );
 
-        let user;
-        while ( user = users.pop() ) {
+        while ( users.size() > 0 ) {
+          let user = users.pop();
           user.destroy( {
             wait: true,
             success: model => {
@@ -58,14 +57,12 @@ router.get( '/', ( req, res ) => {
 
   new PointCollection().fetch( {
     success: points => {
-      console.log( 's' );
       new Promise( ( resolve, reject ) => {
         if ( points.length === 0 ) {
-          console.log( 'zero' );
           resolve( points );
         }
-        let point;
-        while ( point = points.pop() ) {
+        while ( points.size() > 0 ) {
+          let point = points.pop();
           point.destroy( {
             wait: true,
             success: model => {
@@ -74,7 +71,6 @@ router.get( '/', ( req, res ) => {
           } );
         }
       } ).then( points => {
-        console.log( 'create' );
         points.create( {
           id: uuid.v4(),
           name: 'Adventure Cycling Headquarters',
@@ -105,7 +101,7 @@ router.get( '/', ( req, res ) => {
     },
     error: err => {
     }
-  } )
+  } );
 
   res.status( 200 ).end();
 } );

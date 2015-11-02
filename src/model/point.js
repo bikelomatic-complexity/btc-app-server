@@ -39,7 +39,7 @@ export const Point = Model.extend( {
       return 'Name required';
     } else if ( !has( attributes, 'type' ) ) {
       return 'Type required';
-    } else if ( !contains( TYPES, this.get( 'type' ) ) ) {
+    } else if ( !contains( TYPES, attributes.type ) ) {
       return 'Type must be supported by btdc';
     } else if ( !has( attributes, 'lat' ) ) {
       return 'Lat required';

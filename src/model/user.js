@@ -15,7 +15,7 @@ export const User = Model.extend( {
 export const UserCollection = Collection.extend( {
   model: User,
   url: '/users'
-} )
+} );
 
 const couch = connect( 'users' );
 couch.install( err => {

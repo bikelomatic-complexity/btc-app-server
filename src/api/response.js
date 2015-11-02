@@ -128,6 +128,6 @@ export class ResponseBuilder {
    * @param {Object} res - an Express 4.0 response object
    */
   send( res ) {
-    res.status( this.code ).json( this.build() )
+    res.status( this.code ).json( this.build() );
   }
 }

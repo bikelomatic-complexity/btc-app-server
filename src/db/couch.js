@@ -1,5 +1,4 @@
 import { memoize } from 'underscore';
-import backbone from 'backbone';
 import connector from 'backbone-couch';
 
 /**

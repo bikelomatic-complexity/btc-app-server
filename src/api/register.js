@@ -1,6 +1,6 @@
 import express from 'express';
 
-import { Registrant, RegistrantCollection } from '../model/registrant';
+import { Registrant } from '../model/registrant';
 import { create } from '../token/token';
 import { ResponseBuilder } from '../api/response';
 import { mail } from '../mailer';
@@ -54,7 +54,6 @@ router.get( '/', ( req, res ) => {
   const builder = new ResponseBuilder().method( 'get' );
 
   const token = req.query.token;
-  console.log( token );
 
   new Registrant( { 'token': token } ).fetch( {
     success: ( registrant, response, options ) => {

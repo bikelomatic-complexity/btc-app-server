@@ -8,34 +8,39 @@
     "backbone-couch": "^2.0.1",
     "backbone-validation": "^0.11.5",
     "body-parser": "^1.14.1",
-    "esformatter": "^0.8.1",
     "express": "^4.13.3",
     "jsonwebtoken": "^5.4.1",
+    "mocha": "^2.3.3",
     "morgan": "^1.6.1",
     "node-uuid": "^1.4.3",
     "nodemailer": "^1.8.0",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
+    "babel-compile": "^0.1.0",
+    "chai": "^3.4.0",
     "esdoc": "^0.4.1",
     "eslint": "^1.8.0",
-    "eslint-plugin-react": "^3.6.3"
+    "eslint-plugin-react": "^3.6.3",
+    "sinon": "^1.17.2",
+    "esformatter": "^0.8.1"
   },
   "scripts": {
-    "format": "esformatter -i src/**/*.js",
-    "lint": "eslint src/**/*.js & true",
+    "format": "esformatter -i '*(src|test)/**/*.js'",
+    "lint": "eslint '*(src|test)/**/*.js' & true",
     "doc": "esdoc -c .esdoc.json",
-    "build": "babel --source-maps --out-dir lib src",
+    "build": "babel-compile src:lib test:.test",
     "prestart": "npm run build",
-    "start": "node lib/index.js"
+    "start": "node lib/index.js",
+    "pretest": "npm run build",
+    "test": "./node_modules/.bin/mocha './.test/**/*.js'"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bikelomatic-complexity/node-server.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/bikelomatic-complexity/node-server/issues"
   },

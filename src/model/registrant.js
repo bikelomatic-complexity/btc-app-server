@@ -36,15 +36,12 @@ export const Registrant = ValidatedModel.extend( {
   confirm: function() {
     var self = this;
     return new Promise( ( resolve, reject ) => {
-      console.log( this.getFields() );
       new User().save( this.getFields(), {
         success: ( user, response, options ) => {
-          console.log( 'here' );
           self.destroy();
           resolve();
         },
         error: err => {
-          console.log( 'there' );
           reject( err );
         }
       } );
@@ -58,7 +55,7 @@ export const Registrant = ValidatedModel.extend( {
 export const RegistrantCollection = Collection.extend( {
   model: Registrant,
   url: '/registrant'
-} )
+} );
 
 const couch = connect( 'registrants' );
 couch.install( err => {
