@@ -5,7 +5,8 @@
   "main": "server.js",
   "dependencies": {
     "backbone": "^1.2.3",
-    "backbone-couch": "^2.0.1",
+	"backbone-validation": "^0.11.5",
+	"backbone-couch": "^2.0.1",
     "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "jsen": "^0.6.0",
