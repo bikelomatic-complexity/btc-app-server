@@ -1,5 +1,5 @@
 {
-  "source": "./src",
+  "source": "./es6/src",
 	"destination": "./doc",
   "unexportIdentifier": true
 }

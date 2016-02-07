@@ -117,7 +117,7 @@ export class ResponseBuilder {
     return obj;
   }
 
-  errors (body) {
+  errors( body ) {
     const obj = new ResponseBuilder( this );
     obj.body.errors = body;
     return obj;
