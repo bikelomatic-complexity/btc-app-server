@@ -2,14 +2,14 @@
   "plugins": [
     "esformatter-ignore"
   ],
-  
+
   "preset" : "default",
 
   "indent" : {
     "value" : "  ",
     "IfStatementConditional": 2,
     "SwitchStatement" : 0,
-    "TopLevelFunctionBlock" : 0
+    "TopLevelFunctionBlock" : 2
   },
 
   "lineBreak" : {

@@ -1,5 +1,4 @@
 import { Model, Collection } from 'backbone';
-import { contains, has } from 'underscore';
 import jsen from 'jsen';
 import { connect } from '../db/couch';
 
@@ -36,14 +35,14 @@ export const Point = Model.extend( {
   },
 
   validate: function( attributes, options ) {
-    if(!Point.validator(attributes)) {
+    if ( !Point.validator( attributes ) ) {
       return Point.validator.errors;
     }
   }
 }, {
   TYPES: POINT_TYPES,
 
-  validator: jsen({
+  validator: jsen( {
     type: 'object',
     required: [ 'name', 'type', 'lat', 'lng' ],
     properties: {
@@ -57,14 +56,14 @@ export const Point = Model.extend( {
         invalidMessage: `Type must be one of [${POINT_TYPES.toString()}]`
       },
       lat: {
-        type: 'number',
+        type: 'number'
       },
       lng: {
         type: 'number'
       }
     },
     additionalProperties: false
-  }, { greedy: true })
+  }, { greedy: true } )
 } );
 
 export const PointCollection = Collection.extend( {
