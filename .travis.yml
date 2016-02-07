@@ -1,4 +1,15 @@
 language: node_js
 node_js:
-  - "4.2"
-  
+- '4.2'
+before_script:
+- npm run format
+- npm run lint
+notifications:
+  email:
+    on_success: never
+  slack:
+    on_success: change
+    on_failure: change
+    on_start: never
+    rooms:
+      secure: ZqFtCkIdv4lb36jvAOUgFK8K/n5HayxQqlsb5+Wqgvn42REDZhDwn6xMk7NU5WRCKRB87sgmee+/EGq23fphRvh1+NKVvAhtknZEerMyTTjqsu0RWsI7AHb0SAFDo1yCPOVxUpxJmBDxvh86yYWZwx0xArSAMl99rAq8qxfagYfXeMGVDeCw/Rk5tjyLj8dOlA7CIULxvU4PzO1q6PVEVv/cS0oJP07aEirro2mUss0Xmc36/ph1bn2BnI+HG/+lysbNRrIduo6R+lv3XUK8irOxeuzzwy49Kw2+4VEElJ1Tp1u1yGCqd1MhSFdpm7hIMF+iA+w5vuuDkbfjLzkod/FOAtXK9mQF3GKhXiIApWYfNXda5cR7UJwNwtGauavqw1VkzhQ9nQSmxHTEfCuS/HS63pD6XQYDSWtmOmzVurbLeRbvdauQC2RJiqQI/KCFt/mGE885rHFxu9IiOGD1txByh9pe5tf6vELp3d7P26Rdghf//mwJoB654vibf408cbeOxF6/9La8OwnlqPMkCk3x73AfnfuhM4ORJabjED5Rq61iLf+CP83sseQRllqhEDfbtXsVSk8maPiAGkNbz1XDIQdMzqr8jb6Pb7rW7KtjHvD7IHdBiu+hMM7OUv8x6ISHStFkNDxAtOtfvh8qWkSvHdW5ZODdAxAFG7AV3TI=
