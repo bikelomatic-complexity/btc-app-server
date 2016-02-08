@@ -8,13 +8,17 @@
     "backbone-couch": "^2.0.1",
     "backbone-validation": "^0.11.5",
     "body-parser": "^1.14.1",
+    "config": "^1.19.0",
     "express": "^4.13.3",
+    "js-yaml": "^3.5.2",
     "jsen": "^0.6.0",
     "jsonwebtoken": "^5.4.1",
-    "mocha": "^2.3.3",
     "morgan": "^1.6.1",
+    "nano": "^6.2.0",
     "node-uuid": "^1.4.3",
     "nodemailer": "^2.1.0",
+    "passport": "^0.3.2",
+    "passport-jwt": "^1.2.1",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
@@ -26,7 +30,9 @@
     "esformatter-ignore": "^0.1.3",
     "eslint": "^1.8.0",
     "eslint-plugin-react": "^3.6.3",
-    "sinon": "^1.17.2"
+    "mocha": "^2.3.3",
+    "sinon": "^1.17.2",
+    "supertest": "^1.1.0"
   },
   "scripts": {
     "build": "babel es6 -d es5",

@@ -1,0 +1,11 @@
+couch:
+  protocol: http
+  domain: localhost
+  port: 5984
+token:
+  secret: secret
+  iss: adventurecycling.org
+  exp: 15m
+server:
+  domain: localhost
+  port: 8080
