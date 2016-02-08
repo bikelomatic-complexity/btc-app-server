@@ -1,34 +1,26 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import passport from 'passport';
+import passport from './util/passport'; // passport with customizations
+import config from 'config';
 
-import { port, api as path } from './config';
+import * as authenticate from './authenticate';
+import * as flag from './flag';
 
-import { router as api } from './api';
-
-import { authenticate, moderator } from './authenticate';
-
-passport.use('moderator', moderator);
+// Allows tokens that have a moderator role
+passport.use( 'moderator', authenticate.strategy );
 
 const app = express();
+
 app.set( 'json spaces', 2 );
 
 app.use( morgan( 'dev' ) );
 app.use( bodyParser.json() );
 app.use( passport.initialize() );
 
-app.get( '/', ( req, res ) => {
-  res.send( `Hello! The API is at ${path}` );
-} );
+app.post( '/authenticate', authenticate.default );
+app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
 
-app.use( '/api', api );
-
-app.post( '/authenticate', authenticate );
-
-app.get( '/test', passport.authenticate('moderator', { session: false }), (req, res) => {
-  res.send('You are a moderator');
-});
-
+const {domain, port} = config.get( 'server' );
 app.listen( port );
-console.log( 'Serving at http://localhost:' + port );
+console.log( `Serving at http://${domain}:${port}` );
