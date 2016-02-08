@@ -32,7 +32,8 @@
     "esformatter-ignore": "^0.1.3",
     "eslint": "^1.8.0",
     "eslint-plugin-react": "^3.6.3",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.2",
+    "supertest": "^1.1.0"
   },
   "scripts": {
     "build": "babel es6 -d es5",

@@ -33,7 +33,7 @@ export const strategy = new JwtStrategy( {
  * Sign a token with our server's secret. The token's payload will contains
  * the user's email and assigned roles.
  */
-function createToken( email, roles ) {
+export function createToken( email, roles ) {
   return jwt.sign( { email, roles }, secret, { issuer, algorithm, expiresIn } );
 }
 
