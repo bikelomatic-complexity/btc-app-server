@@ -6,7 +6,6 @@
   "dependencies": {
     "backbone": "^1.2.3",
     "backbone-couch": "^2.0.1",
-    "backbone-pouch": "file:../../barstool/backbone-pouch",
     "backbone-validation": "^0.11.5",
     "body-parser": "^1.14.1",
     "config": "^1.19.0",
@@ -14,7 +13,6 @@
     "js-yaml": "^3.5.2",
     "jsen": "^0.6.0",
     "jsonwebtoken": "^5.4.1",
-    "mocha": "^2.3.3",
     "morgan": "^1.6.1",
     "nano": "^6.2.0",
     "node-uuid": "^1.4.3",
@@ -32,6 +30,7 @@
     "esformatter-ignore": "^0.1.3",
     "eslint": "^1.8.0",
     "eslint-plugin-react": "^3.6.3",
+    "mocha": "^2.3.3",
     "sinon": "^1.17.2",
     "supertest": "^1.1.0"
   },
