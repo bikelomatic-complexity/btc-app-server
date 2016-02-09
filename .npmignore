@@ -1,0 +1,13 @@
+.babelrc
+.editorconfig
+.esdoc.json
+.esformatter
+.eslintrc
+.gitignore
+.nyc_output/
+.travis.yml
+shim.js
+*.tgz
+
+doc/
+coverage/

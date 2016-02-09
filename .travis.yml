@@ -1,8 +1,7 @@
 branches:
   only:
-    - master
-    - /^v[0-9]/ # Build tags too! (Travis checks for tags as branch names)
-
+  - master
+  - "/^v[0-9]/"
 language: node_js
 node_js:
 - '4.2'
@@ -13,7 +12,7 @@ after_success:
 - npm run report
 cache:
   directories:
-    - node_modules
+  - node_modules
 notifications:
   email:
     on_success: never
@@ -23,3 +22,22 @@ notifications:
     on_start: never
     rooms:
       secure: Js010YanzCoQgtl42S0DNw/WgGy5SgPILb/PCtUjd/rw0Sd8ejHwA1O2zmjBhU1lrW8YuZSu8zmLtD1a+BDxXSz+fLRNb68qWWWhDO0bqhDju+YktNlcSHTgunt3d4AfgKoSKo7+mspKWg29O66tHjx2ib50nS6kw/6NJE00BFDFFKuOaYMtLPpkIbc5XWH41AaTY44meGym6mQPSfc2I6Yr/lBE1Gr9wIwWNR52RdfSgWK+zAeTBeLEO8CsZDF0IE+HUyV2+YtnJtXwkofViTNovjiLe0a803Yd06KKr/FcR5bWf2ToYC5EUiln0lWCx92OZGmwFxSzcuef1EpwxKmpO5fCholy7u1n2TMkbAcXqJQQT7tB+0mu46sdkMh2mMBwihBaIZjNgdwEH9tGCk7rp6iTO4uPxpKu3dbgPJRXrZE16iQiEb1wBs7qmW9T2iANRCOaRKMP7yk0oy5VCqj2sF5v3lJbmTtiweHCogV8V6J4riyx730hwVlxRyJIefrv98SJuolvmPtUiggYohIEe9qxcJeE0DegBLanE71dHVExATHOTmP3WZuoAZ5uxvb+qUIDrO0RHeNAhzP9JmTV1VZzWawafAexTLvsv/cZMPnoY0EdZoJHOb4EnRoCS/i1n7qk2BPjZn7JuDNMZhsb8SOYCximZJXHn7N7eew=
+before_deploy:
+  - npm pack
+  - export TARBALL=btc-app-server-*.tgz
+  - mkdir deploy
+  - mv "$TARBALL" deploy/
+deploy:
+  provider: s3
+  access_key_id: AKIAICLAFRF4D22VMTOA
+  secret_access_key:
+    secure: ao46SyTTz3mllj3wGcuBR4/0EWB9dBvBNRthmC2MFKmon477e9A+x6xpWsZ5bJlXu23xKbx66w7/f8NAZPHj1671Kv2dUiJ90Rq24tx3wRNuTDs8QE/RkwUZ+b1NEhJptjIC6tcZNDQmeDOyu7/QvKHe8IQvmG+fFvLxYgyQkpgJS23O8HcAFn+txyAMMYrw0yW9/GyktW7wpygMU5ZLlzzhVz02xrumwm/H8Z0STMX6HuT2q1d0u1BpvSPxQ/c+DWhg13yFYrFBYHRGh1lmbddWthvR62+1eDU5ujpx82YfxGgsbg50a+1JRmemdLKd0GjqVzIJVEPTwlNUFaaWStDpmPROD35AyQ+2fimil8Y85TYo68exojnCzfjhjynEY3Jkb8K26sw3OjrAbJ8ZFL8+JFU6eaTJCupjFtLNOp0MVJmZj85MD+iX/e+K6fEeFEGiA9YGhQjZO3gz1k1mn6g88dZMTbH3AfXSzFZb96SDWca5RDgT319ONfs3UR8QdYwsFm3VK+vxLbHzCsdgEEGl4Sc/t5qcCIexe5IB9huEhI/2SS528nOK1tGa18tz14ksefHy2eHghN8xKOCpPhm9JhXGbwin9X2JTWo7EXv+wmuTK8Mv95MpypaX7To5iKIrXMyVm5ZG39cmZKgXSplF9dtV0Nf67KLH21JZFE4=
+  bucket: btc-app-server
+  acl: private
+  skip_cleanup: true
+  local_dir: deploy
+  detect_encoding: true
+  on:
+    repo: bikelomatic-complexity/btc-app-server
+    branch: master
+    tags: true
