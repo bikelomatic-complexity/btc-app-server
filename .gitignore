@@ -33,3 +33,6 @@ node_modules
 
 # Nyc output
 .nyc_output/
+
+# Npm's packed tarball
+*.tgz

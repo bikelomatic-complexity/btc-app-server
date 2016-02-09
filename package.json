@@ -1,6 +1,6 @@
 {
-  "name": "node-server",
-  "version": "1.0.0",
+  "name": "btc-app-server",
+  "version": "0.1.0",
   "description": "Node Server",
   "main": "es5/src/index.js",
   "dependencies": {
@@ -39,6 +39,7 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
+    "version": "echo $npm_package_version",
     "build": "babel es6 -d es5",
     "prepublish": "npm run build",
     "format:enforce": "esformatter -i 'es6/**/*.js'",
