@@ -1,8 +1,12 @@
 /*global process __dirname require*/
 
-import { walkSync } from 'fs-tools';
-import { resolve, basename, relative } from 'path';
-import { contains } from 'underscore';
+var walkSync = require('fs-tools').walkSync,
+    contains = require('underscore').contains,
+    path = require('path');
+
+var resolve = path.resolve,
+    basename = path.basename,
+    relative = path.relative;
 
 /*
  * Istanbul only instruments source files that are required by mocha while
@@ -21,13 +25,13 @@ if ( process.env.NODE_ENV === 'development' ) {
 }
 
 try {
-  const es6src = resolve( __dirname, '..', 'es6', 'src' );
-  const es5src = resolve( __dirname, 'src' );
+  var es6src = resolve( __dirname, '..', 'es6', 'src' );
+  var es5src = resolve( __dirname, 'src' );
 
   walkSync( es6src, '\.js$', function( path ) {
     if ( !contains( [ 'index.js' ], basename( path ) ) ) {
-      const slug = relative( es6src, path );
-      const file = resolve( es5src, slug );
+      var slug = relative( es6src, path );
+      var file = resolve( es5src, slug );
 
       if ( process.env.NODE_ENV === 'development' ) {
         console.log( '!', file );
