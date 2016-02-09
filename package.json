@@ -10,6 +10,7 @@
     "body-parser": "^1.14.1",
     "config": "^1.19.0",
     "express": "^4.13.3",
+    "forever": "^0.15.1",
     "js-yaml": "^3.5.2",
     "jsen": "^0.6.0",
     "jsonwebtoken": "^5.4.1",
@@ -41,7 +42,9 @@
     "format": "esformatter --diff 'es6/**/*.js'",
     "lint": "eslint 'es6/**/*.js'",
     "doc": "esdoc -c .esdoc.json",
-    "start": "node es5/src/index.js",
+    "start": "forever start es5/src/index.js",
+    "restart": "forever restart es5/src/index.js",
+    "stop": "forever stop es5/src/index.js",
     "test": "mocha './es5/test/**/*.js'"
   },
   "repository": {
