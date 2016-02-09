@@ -1,8 +1,8 @@
-/*global process*/
+/*global process __dirname require*/
 
 import { walkSync } from 'fs-tools';
 import { resolve, basename, relative } from 'path';
-import { contains } from  'underscore';
+import { contains } from 'underscore';
 
 /*
  * Istanbul only instruments source files that are required by mocha while
@@ -15,26 +15,26 @@ import { contains } from  'underscore';
  * NOTE: We also can't require index.js, because that launches the server!
  */
 
-if(process.env.NODE_ENV === 'development') {
-  console.log('! mocha is now requiring all source .js files');
-  console.log('! see shim.js for details.\n')
+if ( process.env.NODE_ENV === 'development' ) {
+  console.log( '! mocha is now requiring all source .js files' );
+  console.log( '! see shim.js for details.\n' );
 }
 
 try {
-  const es6src = resolve(__dirname, '..', 'es6', 'src');
-  const es5src = resolve(__dirname, 'src');
+  const es6src = resolve( __dirname, '..', 'es6', 'src' );
+  const es5src = resolve( __dirname, 'src' );
 
-  walkSync(es6src, '\.js$', function(path) {
-    if(!contains(['index.js'], basename(path))) {
-      const slug = relative(es6src, path);
-      const file = resolve(es5src, slug);
+  walkSync( es6src, '\.js$', function( path ) {
+    if ( !contains( [ 'index.js' ], basename( path ) ) ) {
+      const slug = relative( es6src, path );
+      const file = resolve( es5src, slug );
 
-      if(process.env.NODE_ENV === 'development') {
-        console.log('!', file);
+      if ( process.env.NODE_ENV === 'development' ) {
+        console.log( '!', file );
       }
-      require(file);
+      require( file );
     }
-  });
-} catch(err) {
-  console.error(err);
+  } );
+} catch ( err ) {
+  console.error( err );
 }
