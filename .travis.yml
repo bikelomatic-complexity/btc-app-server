@@ -4,6 +4,8 @@ node_js:
 before_script:
 - npm run format
 - npm run lint
+after_success:
+- npm run report
 notifications:
   email:
     on_success: never
