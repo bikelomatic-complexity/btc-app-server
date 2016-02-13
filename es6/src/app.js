@@ -22,3 +22,5 @@ app.use( passport.initialize() );
 
 app.post( '/authenticate', authenticate.default );
 app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
+
+app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );
