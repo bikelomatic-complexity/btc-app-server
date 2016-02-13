@@ -1,6 +1,6 @@
 {
   "name": "btc-app-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node Server",
   "main": "es5/src/index.js",
   "dependencies": {
