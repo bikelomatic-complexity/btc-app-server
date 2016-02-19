@@ -3,6 +3,9 @@ es5/
 
 .test/
 
+# Local PouchDB database used for testing
+_users/
+
 # Logs
 logs
 *.log

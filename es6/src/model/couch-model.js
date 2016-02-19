@@ -1,5 +1,5 @@
 import { Model } from 'backbone';
-import { omit, union, keys, intersection, isArray } from 'underscore';
+import { omit, union, isArray } from 'underscore';
 
 // Special keys that are reserved by serialized CouchDB documents
 const baseSafeguard = [ '_id', '_rev' ];
@@ -39,15 +39,11 @@ export default Model.extend( {
     options || ( options = {} );
 
     if ( !options.force ) {
-      // Record keys we are about to omit, for logging
-      const omitted = intersection( keys( attrs ), this.safeguard );
+      // Uncomment to log keys that we omit from super.set()
+      /* const omitted = intersection( keys( attrs ), this.safeguard ); */
 
       // Actually omit safeguarded keys
       attrs = omit( attrs, this.safeguard );
-
-      for ( let attr of omitted ) {
-        console.error( `Attr ${attr} safeguarded from improper modification` );
-      }
     }
 
     return Model.prototype.set.call( this, attrs, options );
