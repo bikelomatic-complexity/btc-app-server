@@ -32,4 +32,5 @@ app.get( '/register/:verification', register.verify );
 app.post( '/authenticate', authenticate.default );
 app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
 
+// Used by our Elastic Load Balacers
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );
