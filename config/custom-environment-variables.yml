@@ -1,7 +1,8 @@
 couch:
-  protocol: http
   domain: SERVER_COUCH_DOMAIN
   port: SERVER_COUCH_PORT
+  username: SERVER_COUCH_USERNAME
+  password: SERVER_COUCH_PASSWORD
 token:
   secret: SERVER_SECRET
   iss: SERVER_JWT_ISS

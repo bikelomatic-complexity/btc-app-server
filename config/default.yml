@@ -2,6 +2,8 @@ couch:
   protocol: http
   domain: localhost
   port: 5984
+  username: admin # Override these if your development CouchDB is different
+  password: admin
 token:
   secret: secret
   iss: adventurecycling.org
@@ -9,3 +11,5 @@ token:
 server:
   domain: localhost
   port: 8080
+mail:
+  account: bicycle-touring-companion@adventurecycling.org

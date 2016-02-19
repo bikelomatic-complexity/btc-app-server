@@ -12,9 +12,7 @@ const expiresIn = config.get( 'token.exp' );
 
 const algorithm = 'HS256';
 
-/*
- * Passport strategy to determine if a token-holder is a moderator.
- */
+// Passport strategy to determine if a token-holder is a moderator.
 export const strategy = new JwtStrategy( {
   issuer,
   algorithms: [ algorithm ],
@@ -29,20 +27,19 @@ export const strategy = new JwtStrategy( {
     }
   } );
 
-/*
- * Sign a token with our server's secret. The token's payload will contains
- * the user's email and assigned roles.
- */
+// Sign a token with our server's secret. The token's payload will contain
+// the user's email and assigned roles.
 export function createToken( email, roles ) {
   return jwt.sign( { email, roles }, secret, { issuer, algorithm, expiresIn } );
 }
 
-/*
- * Express route to authenticate a user given their email and password.
- * Currently, the nano driver is used to authenticate users. This includes
- * asking CouchDB to create a new session for the user. The session creation
- * request returns the users' defined roles.
- */
+// Authenticate a user given their email and password.
+// Currently, the nano driver is used to authenticate users. It:
+//
+//  * asks CouchDB to create a new session for the user
+//  * responds with the users' defined roles
+//
+// We need to make sure a bunch of stale sessions are not being kept around.
 export default function authenticate( req, res ) {
   const {email, password} = req.body;
 

@@ -1,70 +1,84 @@
-// import express from 'express';
-//
-// import { Registrant } from '../model/registrant';
-// import { create } from '../token/token';
-// import { ResponseBuilder } from '../api/response';
-// import { mail } from '../mailer';
-// import { verify } from '../token/token';
-//
-// /**
-//  * Routes to allow a new user to register with the system.
-//  */
-// export const router = express.Router();
-//
-// /**
-//  * Initiate the registration process. If the user information is valid,
-//  * email a token to the user, and save a record in the 'registrants' db.
-//  * The user will visit /api/register/confirm by clicking our link.
-//  *
-//  * @example
-//  * POST /api/register
-//  * {
-//  *   "email": "barry@example.com",
-//  *   "password": "flash",
-//  *   "first": "Barry",
-//  *   "last": "Allen",
-//  *   "username": ""
-//  * }
-//  */
-// router.post( '/', ( req, res ) => {
-//   const builder = new ResponseBuilder().method( 'post' );
-//
-//   const registrant = new Registrant( req.body );
-//
-//   const errors = registrant.validate();
-//   if ( errors ) {
-//     builder.status( false ).set( 'errors', errors ).send( res );
-//   }
-//
-//   // Mail the token after the db insert succeeds
-//   const token = create( registrant );
-//   registrant.save( { 'token': token }, {
-//     success: ( registrant, response, options ) => {
-//       res.status( 200 ).end();
-//       mail( registrant, token );
-//     },
-//     error: err => {
-//       builder.status( false ).message( err ).send( res );
-//     }
-//   } );
-// } );
-//
-// router.use( verify );
-// router.get( '/', ( req, res ) => {
-//   const builder = new ResponseBuilder().method( 'get' );
-//
-//   const token = req.query.token;
-//
-//   new Registrant( { 'token': token } ).fetch( {
-//     success: ( registrant, response, options ) => {
-//       registrant.confirm().then( ( ) => {
-//         builder.status( true ).message( 'you have registered' ).send( res );
-//       } ).catch( err => {
-//         builder.status( false ).message( err ).send( res );
-//       } );
-//     },
-//     error: err => {
-//       builder.status( false ).message( 'you have not registered yet' ).send( res );
-//     }
-//   } );
-// } );
+import { pick } from 'underscore';
+
+import { User, UserCollection } from './model/user';
+import { mail } from './util/mailer';
+import { connect } from './util/couch';
+import { createToken } from './authenticate';
+
+// Connect our User models to the database
+connect( '_users', User, UserCollection );
+
+// ## Apply Route
+// Apply for a new Bicycle Touring Companion account
+export function apply( req, res ) {
+  // Filter req.body. We don't want the user to specify `roles`.
+  const body = pick( req.body, [
+    'email',
+    'username',
+    'first',
+    'last',
+    'password'
+  ] );
+
+  const user = new User( body, { validate: true } );
+  if ( user.validationError ) {
+    return res.status( 400 ).json( { error: user.validationError } );
+  }
+
+  const verification = createToken( user.get( 'email' ), [] );
+
+  // Save them into the database, but mark them as **not verified**
+  user.save( { verification, verified: false }, {
+    success: ( user, response, options ) => {
+      mail( user, verification );
+      return res.status( 200 ).end();
+    },
+
+    // We may get an error if the email is already registered
+    error: ( user, response, options ) => {
+      return res.status( 400 ).json( {
+        error: response.message,
+        reason: response.reason
+      } );
+    }
+  } );
+  if ( user.validationError ) {
+    return res.status( 400 ).json( { error: user.validationError } );
+  }
+}
+
+// ## Verify email
+// If the user recieves our token in their inbox, we know they control the
+// email account.
+export function verify( req, res ) {
+  req.checkParams( 'verification', 'verification token required' ).notEmpty();
+
+  const errors = req.validationErrors();
+  if ( errors ) {
+    return res.status( 400 ).json( 'error', errors );
+  }
+
+  const {verification} = req.params;
+
+  new UserCollection().fetch( {
+    // Look for an unverified user with a matching verification token. If that
+    // user really exists, then mark them verified.
+    success: ( users, response, options ) => {
+      const user = users.findWhere( { verification, verified: false } );
+      if ( user ) {
+        user.save( { verified: true }, {
+          success: ( model, response, options ) => res.status( 200 ).end(),
+          error: ( model, response, options ) => res.status( 500 ).end()
+        } );
+        if ( user.validationError ) {
+          res.status( 400 ).json( { error: user.validationError } );
+        }
+      } else {
+        res.status( 400 ).json( { error: 'you have not registered yet' } );
+      }
+    },
+
+    // Couldn't fetch user models -- not the user's problem
+    error: ( users, response, options ) => res.status( 500 ).end()
+  } );
+}
