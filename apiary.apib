@@ -27,7 +27,7 @@ account, we'll send you an email containing a verification token.
 + Response 400 (application/json)
 
         {
-            "error": "something went wrong"
+            "error": "something went wrong!"
         }
         
 ## Account Management: Verification [/register/{token}]
@@ -41,3 +41,26 @@ Respond here with the token we send to your email address.
 
 + Response 200 (text/html)
 + Response 400 (text/html)
+
+## Authenticate [/authenticate]
+
+### Retrieve an API token [POST]
+
++ Request
+
+        {
+            "email": "john.doe@example.com",
+            "password": "123456"
+        }
+        
++ Response 200 (applicaiton/json)
+
+        {
+            "auth_token": "header.payload.signature"
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "error": "something went wrong!"
+        }
