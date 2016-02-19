@@ -49,7 +49,7 @@
     "doc": "docco es6/src/*.js es6/src/*/*.js",
     "start": "node es5/src/index.js",
     "clean": "rm -r es5/",
-    "unit": "mocha './es5/test/**/*.js' --require './shim'",
+    "unit": "NODE_ENV=test mocha './es5/test/**/*.js' --require './shim'",
     "test": "nyc npm run unit",
     "report": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc report --reporter=lcov"
