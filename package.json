@@ -51,7 +51,8 @@
     "clean": "rm -r es5/",
     "unit": "mocha './es5/test/**/*.js' --require './shim'",
     "test": "nyc npm run unit",
-    "report": "nyc report --reporter=text-lcov | coveralls"
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=lcov"
   },
   "nyc": {
     "exclude": [

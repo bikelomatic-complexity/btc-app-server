@@ -105,18 +105,18 @@ describe( 'Routes', function() {
           } )
           .catch( err => done( err ) );
       } );
-      it( '+ Response 200', function(done) {
-        this.request.get('/register/' + verification)
+      it( '+ Response 200', function( done ) {
+        this.request.get( '/register/' + verification )
           .expect( 200, done );
       } );
       it( ' > `verififed` set to true', function() {
         const doc = _users.get( 'org.couchdb.user:bob@example.com' );
-        expect(doc).to.eventually.have.property('verified', true);
+        expect( doc ).to.eventually.have.property( 'verified', true );
       } );
-      it( '+ Response 400 (random token)', function(done) {
-        this.request.get('/register/' + 'random')
-          .expect(400, done );
-      });
+      it( '+ Response 400 (random token)', function( done ) {
+        this.request.get( '/register/' + 'random' )
+          .expect( 400, done );
+      } );
     } );
   } );
 } );
