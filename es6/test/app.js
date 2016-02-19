@@ -28,6 +28,20 @@ import { app } from '../src/app';
 // Modules to mock
 import { nano_db } from '../src/util/couch';
 
+describe( 'Routes', function() {
+  before( function() {
+    this.request = request( app );
+  } );
+  describe( '/health', function() {
+    describe( 'Check if the server is alive [GET]', function() {
+      it( '+ Response 200', function( done ) {
+        this.request.get( '/health' )
+          .expect( 200, done );
+      } );
+    } );
+  } );
+} );
+
 let token;
 describe( 'Moderator user', function() {
   before( function() {

@@ -27,6 +27,7 @@
     "babel-cli": "^6.4.5",
     "babel-preset-es2015": "^6.3.13",
     "chai": "^3.4.0",
+    "chai-as-promised": "^5.2.0",
     "coveralls": "^2.11.6",
     "docco": "^0.7.0",
     "esformatter": "^0.9.0",
@@ -48,17 +49,15 @@
     "doc": "docco es6/src/*.js es6/src/*/*.js",
     "start": "node es5/src/index.js",
     "clean": "rm -r es5/",
-    "unit": "mocha './es5/test/**/*.js' --require './shim'",
+    "unit": "NODE_ENV=test mocha './es5/test/**/*.js' --require './shim'",
     "test": "nyc npm run unit",
-    "report": "nyc report --reporter=text-lcov | coveralls"
+    "report": "nyc report --reporter=text-lcov | coveralls",
+    "coverage": "nyc report --reporter=lcov"
   },
   "nyc": {
     "exclude": [
       "shim.js",
-      "es5/test/",
-      "es5/src/model",
-      "es5/src/register.js",
-      "es5/src/util/mailer.js"
+      "es5/test/"
     ]
   },
   "repository": {
