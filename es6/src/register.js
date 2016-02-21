@@ -7,17 +7,18 @@
  * it under the terms of the Affero GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * btc-app-server is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * Affero GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the Affero GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 import { pick } from 'underscore';
+import config from 'config';
 
 import { User, UserCollection } from './model/user';
 import { mail } from './util/mailer';
@@ -48,9 +49,17 @@ export function apply( req, res ) {
 
   // Save them into the database, but mark them as **not verified**
   user.save( { verification, verified: false }, {
+    // Allow for backbone-pouch to set _id, _rev, etc.
+    force: true,
+
+    // Mail a confirmation message to the user
     success: ( user, response, options ) => {
-      mail( user, verification );
-      return res.status( 200 ).end();
+      if ( config.get( 'mail.send' ) ) {
+        mail( user, verification );
+        return res.status( 200 ).end();
+      } else {
+        console.log( 'verification: ' + verification );
+      }
     },
 
     // We may get an error if the email is already registered
@@ -85,7 +94,9 @@ export function verify( req, res ) {
     success: ( users, response, options ) => {
       const user = users.findWhere( { verification, verified: false } );
       if ( user ) {
+        user.unset( 'verification' );
         user.save( { verified: true }, {
+          force: true,
           success: ( model, response, options ) => res.status( 200 ).end(),
           error: ( model, response, options ) => res.status( 500 ).end()
         } );
