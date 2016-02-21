@@ -7,21 +7,20 @@
  * it under the terms of the Affero GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * btc-app-server is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * Affero GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the Affero GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import { Collection } from 'backbone';
 import _ from 'underscore';
 
 import ValidationMixin from './validation-mixin';
-import CouchModel from './couch-model';
+import { CouchModel, CouchCollection } from './base';
 import schema from '../../../schema/user.json';
 
 // ## User
@@ -33,8 +32,15 @@ export const User = CouchModel.extend( {
   // models are serialized into Couch docs, the `_id` key will be set.
   idAttribute: 'email',
 
-  // The keys `name` and `type` are reserved by CouchDB's _users database
-  safeguard: [ 'name', 'type' ],
+  // Reserved by documents in CouchDB's _users database
+  safeguard: [
+    'name',
+    'type',
+    'derived_key',
+    'iterations',
+    'password_scheme',
+    'salt'
+  ],
 
   // The majority of the time we are creating regular users, so we default
   // to an empty role set.
@@ -54,15 +60,6 @@ export const User = CouchModel.extend( {
       name: this.attributes.email,
       type: 'user'
     } );
-  },
-
-  // When de-serializing CouchDB documents into Backbone models, ignore these
-  // special properties from the user database. We don't need them for app
-  // purposes, and we don't need them for mapping purposes.
-  parse: function( response, options ) {
-    return _.omit( response, [
-      'derived_key', 'iterations', 'password_scheme', 'salt', 'name', 'type'
-    ] );
   }
 } );
 
@@ -70,7 +67,7 @@ export const User = CouchModel.extend( {
 _.extend( User.prototype, ValidationMixin( schema ) );
 
 // ## User Collection
-export const UserCollection = Collection.extend( {
+export const UserCollection = CouchCollection.extend( {
   model: User,
 
   // Configure BackbonePouch to query all docs, but only return user documents.
