@@ -56,10 +56,10 @@ export function apply( req, res ) {
     success: ( user, response, options ) => {
       if ( config.get( 'mail.send' ) ) {
         mail( user, verification );
-        return res.status( 200 ).end();
       } else {
         console.log( 'verification: ' + verification );
       }
+      return res.status( 200 ).end();
     },
 
     // We may get an error if the email is already registered
