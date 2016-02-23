@@ -9,7 +9,7 @@ token:
   iss: adventurecycling.org
   exp: 15m
 server:
-  domain: localhost
+  domain: btc-app-server-1559933658.us-east-1.elb.amazonaws.com
   port: 80
 mail:
   send: true
