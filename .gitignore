@@ -1,6 +1,6 @@
 coverage/
 docs/
-es5/
+lib/
 
 .test/
 
