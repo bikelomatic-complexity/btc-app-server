@@ -8,8 +8,10 @@ node_js:
 before_script:
 - npm run format
 - npm run lint
+script:
+- NODE_ENV=test npm test
 after_success:
-- npm run report
+- NODE_ENV=test npm run report
 cache:
   directories:
   - node_modules

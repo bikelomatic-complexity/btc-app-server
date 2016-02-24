@@ -21,7 +21,7 @@ import _ from 'underscore';
 
 import ValidationMixin from './validation-mixin';
 import { CouchModel, CouchCollection } from './base';
-import schema from '../../../schema/user.json';
+import schema from '../../schema/user.json';
 
 // ## User
 // We extend from `CouchModel` to ensure we don't mess with `_id` or `_rev`

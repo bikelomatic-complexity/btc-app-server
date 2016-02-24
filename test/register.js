@@ -29,8 +29,8 @@ chai.use( promised );
 import PouchDB from 'pouchdb';
 import { omit, extend } from 'underscore';
 
-import * as mailer from '../src/util/mailer';
-import { app } from '../src/app';
+import * as mailer from '../lib/util/mailer';
+import { app } from '../lib/app';
 
 const bob = {
   email: 'bob@example.com',

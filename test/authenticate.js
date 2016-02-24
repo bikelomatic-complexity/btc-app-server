@@ -31,11 +31,11 @@ import _ from 'underscore';
 const secret = config.get( 'token.secret' );
 
 // Under test
-import { app } from '../src/app';
-import { createToken } from '../src/authenticate';
+import { app } from '../lib/app';
+import { createToken } from '../lib/authenticate';
 
 // Modules to mock
-import { nano_db } from '../src/util/couch';
+import { nano_db } from '../lib/util/couch';
 
 describe( 'Routes', function() {
   before( function() {

@@ -41,14 +41,16 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "prepublish": "babel es6 -d es5",
-    "format:enforce": "esformatter -i 'es6/**/*.js'",
-    "format": "esformatter --diff 'es6/**/*.js'",
-    "lint": "eslint 'es6/**/*.js'",
-    "doc": "docco es6/src/*.js es6/src/*/*.js",
-    "start": "node es5/src/index.js",
-    "clean": "rm -r es5/",
-    "unit": "NODE_ENV=test mocha './es5/test/**/*.js' --require './shim'",
+    "prepublish": "babel src -d lib",
+    "format:enforce": "esformatter -i '?(src|lib)/**/*.js'",
+    "format": "esformatter --diff '?(src|lib)/**/*.js'",
+    "lint": "eslint '?(src|lib)/**/*.js'",
+    "doc": "docco src/*.js src/*/*.js",
+    "start": "node lib/index.js",
+    "clean": "rm -r lib",
+    "//": "you must run the unit tests with NODE_ENV=test",
+    "preunit": "babel test -d .test",
+    "unit": "mocha '.test/**/*.js' --require './shim'",
     "test": "nyc npm run unit",
     "report": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc report --reporter=lcov"
@@ -56,7 +58,7 @@
   "nyc": {
     "exclude": [
       "shim.js",
-      "es5/test/"
+      ".test/"
     ]
   },
   "repository": {

@@ -25,8 +25,8 @@ if ( process.env.NODE_ENV === 'development' ) {
 }
 
 try {
-  var es6src = resolve( __dirname, '..', 'es6', 'src' );
-  var es5src = resolve( __dirname, 'src' );
+  var es6src = resolve( __dirname, 'src' );
+  var es5src = resolve( __dirname, 'lib' );
 
   walkSync( es6src, '\.js$', function( path ) {
     if ( !contains( [ 'index.js' ], basename( path ) ) ) {

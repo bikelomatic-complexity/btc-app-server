@@ -24,10 +24,10 @@ import sinon from 'sinon';
 import { assert } from 'chai';
 
 // Under test
-import { app } from '../src/app';
+import { app } from '../lib/app';
 
 // Modules to mock
-import { nano_db } from '../src/util/couch';
+import { nano_db } from '../lib/util/couch';
 
 describe( 'Routes', function() {
   before( function() {
