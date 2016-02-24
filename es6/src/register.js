@@ -20,7 +20,7 @@
 import { pick } from 'underscore';
 import config from 'config';
 
-import { User, UserCollection } from './model/user';
+import { User, UserCollection } from 'btc-models';
 import { mail } from './util/mailer';
 import { connect } from './util/couch';
 import { createToken } from './authenticate';
