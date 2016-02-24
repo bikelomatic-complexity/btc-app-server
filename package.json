@@ -42,9 +42,9 @@
   },
   "scripts": {
     "prepublish": "babel src -d lib",
-    "format:replace": "esformatter -i '?(src|lib)/**/*.js'",
-    "format": "esformatter --diff '?(src|lib)/**/*.js'",
-    "lint": "eslint '?(src|lib)/**/*.js'",
+    "format:replace": "esformatter -i '?(src|test)/**/*.js'",
+    "format": "esformatter --diff '?(src|test)/**/*.js'",
+    "lint": "eslint '?(src|test)/**/*.js'",
     "doc": "docco src/*.js src/*/*.js",
     "start": "node lib/index.js",
     "clean": "rm -r lib",
