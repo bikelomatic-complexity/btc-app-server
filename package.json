@@ -1,6 +1,6 @@
 {
   "name": "btc-app-server",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Node Server",
   "main": "es5/src/index.js",
   "dependencies": {
@@ -8,6 +8,7 @@
     "backbone": "^1.2.3",
     "backbone-pouch": "git+https://github.com/jo/backbone-pouch.git#5aef445",
     "body-parser": "^1.14.1",
+    "btc-models": "git+https://github.com/bikelomatic-complexity/btc-models.git#v1.0.0",
     "config": "^1.19.0",
     "express": "^4.13.3",
     "express-validator": "^2.19.1",
@@ -31,8 +32,7 @@
     "docco": "^0.7.0",
     "esformatter": "^0.9.0",
     "esformatter-ignore": "^0.1.3",
-    "eslint": "^1.8.0",
-    "eslint-plugin-react": "^3.6.3",
+    "eslint": "^2.2.0",
     "fs-tools": "^0.2.11",
     "mocha": "^2.3.3",
     "nyc": "^5.6.0",
@@ -42,7 +42,7 @@
   },
   "scripts": {
     "prepublish": "babel src -d lib",
-    "format:enforce": "esformatter -i '?(src|lib)/**/*.js'",
+    "format:replace": "esformatter -i '?(src|lib)/**/*.js'",
     "format": "esformatter --diff '?(src|lib)/**/*.js'",
     "lint": "eslint '?(src|lib)/**/*.js'",
     "doc": "docco src/*.js src/*/*.js",
