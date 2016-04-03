@@ -33,12 +33,12 @@ const transporter = nodemailer.createTransport();
 
 /** @todo Use handlebars or jade for email templating */
 export function mail( registrant, token ) {
-  const registrationTemplate = fs.readFileSync('./emailTemplates/registration.html', 'utf8');
+  const registrationTemplate = fs.readFileSync( './emailTemplates/registration.html', 'utf8' );
   const {first, last} = registrant.attributes;
   transporter.sendMail( {
     from: mailAccount,
     to: registrant.get( 'email' ),
     subject: subject,
-    html: _.template(registrationTemplate)({first, last, api, token})
+    html: _.template( registrationTemplate )( { first, last, api, token } )
   } );
 }
