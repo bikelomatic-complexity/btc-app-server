@@ -46,7 +46,7 @@ export function apply( req, res ) {
   }
 
   const verification = createToken( user.get( 'email' ), [] );
-
+  
   // Save them into the database, but mark them as **not verified**
   user.save( { verification, verified: false }, {
     // Allow for backbone-pouch to set _id, _rev, etc.
