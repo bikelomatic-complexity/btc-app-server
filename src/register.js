@@ -101,7 +101,7 @@ export function verify( req, res ) {
         user.unset( 'verification' );
         user.save( { verified: true }, {
           force: true,
-          success: ( model, response, options ) => res.send( template(thankYouPage)() ),
+          success: ( model, response, options ) => res.send( template( thankYouPage )() ),
           error: ( model, response, options ) => res.status( 500 ).end()
         } );
         if ( user.validationError ) {
