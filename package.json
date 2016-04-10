@@ -41,7 +41,7 @@
     "supertest": "^1.1.0"
   },
   "scripts": {
-    "prepublish": "babel src -d lib",
+    "prestart": "babel src -d lib",
     "format": "esformatter --diff \"?(src|test)/**/*.js\"",
     "format:replace": "esformatter -i \"?(src|test)/**/*.js\"",
     "lint": "eslint \"?(src|test)/**/*.js\"",
