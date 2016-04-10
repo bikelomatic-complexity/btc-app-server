@@ -53,3 +53,6 @@ app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
 
 // Used by our Elastic Load Balacers
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );
+
+// Host the static content of staticPages
+app.use(express.static(__dirname + "/../staticPages"));
