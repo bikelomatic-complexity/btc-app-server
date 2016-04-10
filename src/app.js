@@ -17,7 +17,7 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*global process*/
+/*global process, __dirname*/
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -55,4 +55,4 @@ app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );
 
 // Host the static content of staticPages
-app.use(express.static(__dirname + "/../staticPages"));
+app.use( express.static( __dirname + '/../staticPages' ) );
