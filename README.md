@@ -6,7 +6,16 @@
 
 # Testing Locally
  - Install CouchDB
+ - Run CouchDB
+  - it should give you an option to automatically start on windows
+  - on linux, depending on your install, this may be the following command
+  `sudo -u couchdb /usr/bin/couchdb`
+  - this may generate errors, but couchdb should still be running
  - `npm install && npm start` to get a server loaded on localhost:8080
- - go to `localhost:5984/_utils/` where CouchDB should be running (if you selected to launch it after install)
-  - go to the bottom right where a small dialogue box mentions that everyone is an admin. Make sure to change this before (click the "fix this" link) and follow those steps.
+ - go to `localhost:5984/_utils/` where CouchDB should be running (if you 
+ selected to launch it after install)
+  - go to the bottom right where a small dialogue box mentions that everyone is 
+  an admin. Make sure to change this before (click the "fix this" link) and 
+  follow those steps.
  - Look at the apiary (`apiary.apib`) for more information.
+  - You can use postman to make the requests at `localhost:8080`
