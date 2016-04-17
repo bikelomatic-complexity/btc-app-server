@@ -39,3 +39,9 @@ is labeled in `config/custom-environment.yml`.
 Any of the configurations in there can be changed. Simply set your environment
 variables on your local machine to what you want them to be. For example, to
 send emails on a windows device, you would run `set SERVER_SEND_MAIL=true`.
+
+# Images not loading in email
+If you are developing locally, it could be the case that your images will get
+redirected and loaded through a proxy after being cached. If when testing the
+emails being sent, they do not appear to load correctly, try an email server
+that does not use a proxy (e.g. https://mailinator.com/).
