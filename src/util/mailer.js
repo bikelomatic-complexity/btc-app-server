@@ -22,7 +22,7 @@ import config from 'config';
 import fs from 'fs';
 import _ from 'underscore';
 
-const subject = 'Register your bicycle touring digital companion account';
+const subject = 'Register Your Bicycle Touring Companion Account';
 const mailAccount = config.get( 'mail.account' );
 
 const {domain, port} = config.get( 'server' );
@@ -31,14 +31,14 @@ const api = `http://${domain}:${port}`;
 /** @todo The default transporter is unreliable */
 const transporter = nodemailer.createTransport();
 
-/** @todo Use handlebars or jade for email templating */
 export function mail( registrant, token ) {
   const registrationTemplate = fs.readFileSync( './emailTemplates/registration.html', 'utf8' );
   const {first, last} = registrant.attributes;
+  const assetDomain = `http://${domain}:${port}`;
   transporter.sendMail( {
     from: mailAccount,
     to: registrant.get( 'email' ),
     subject: subject,
-    html: _.template( registrationTemplate )( { first, last, api, token } )
+    html: _.template( registrationTemplate )( { first, last, api, token, assetDomain } )
   } );
 }

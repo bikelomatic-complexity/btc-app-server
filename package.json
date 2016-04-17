@@ -51,7 +51,7 @@
     "clean": "rm -r lib",
     "//": "you must run the unit tests with NODE_ENV=test",
     "preunit": "babel test -d .test",
-    "unit": "mocha '.test/**/*.js' --require './shim'",
+    "unit": "mocha \".test/**/*.js\" --require \"./shim\"",
     "test": "nyc npm run unit",
     "report": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc report --reporter=lcov"

@@ -4,7 +4,7 @@
 [![Dependency Status](http://david-dm.org/bikelomatic-complexity/btc-app-server.svg)](http://david-dm.org/bikelomatic-complexity/btc-app-server)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
 
-# Testing Locally
+# Developing Locally
  - Install CouchDB
  - Run CouchDB
   - it should give you an option to automatically start on windows
@@ -12,10 +12,36 @@
   `sudo -u couchdb /usr/bin/couchdb`
   - this may generate errors, but couchdb should still be running
  - `npm install && npm start` to get a server loaded on localhost:8080
- - go to `localhost:5984/_utils/` where CouchDB should be running (if you 
+ - go to `localhost:5984/_utils/` where CouchDB should be running (if you
  selected to launch it after install)
-  - go to the bottom right where a small dialogue box mentions that everyone is 
-  an admin. Make sure to change this before (click the "fix this" link) and 
+  - go to the bottom right where a small dialogue box mentions that everyone is
+  an admin. Make sure to change this before (click the "fix this" link) and
   follow those steps.
  - Look at the apiary (`apiary.apib`) for more information.
   - You can use postman to make the requests at `localhost:8080`
+
+# Running tests locally
+To run tests on you machine, it is recommended that you set the node environment
+to be set to `test`. This can be done by running the following in windows:
+```
+set NODE_ENV=test
+```  
+or if you are running linux, by running:  
+```
+export NODE_ENV=test
+```
+
+# Sending Emails
+One of the things you can do with btc-app-server is send emails upon registering
+a new user! To have the email send, you will need to set the configuration as it
+is labeled in `config/custom-environment.yml`.  
+
+Any of the configurations in there can be changed. Simply set your environment
+variables on your local machine to what you want them to be. For example, to
+send emails on a windows device, you would run `set SERVER_SEND_MAIL=true`.
+
+# Images not loading in email
+If you are developing locally, it could be the case that your images will get
+redirected and loaded through a proxy after being cached. If when testing the
+emails being sent, they do not appear to load correctly, try an email server
+that does not use a proxy (e.g. https://mailinator.com/).
