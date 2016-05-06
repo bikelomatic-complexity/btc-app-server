@@ -7,17 +7,19 @@
  * it under the terms of the Affero GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * btc-app-server is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * Affero GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the Affero GNU General Public License
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 /*global process*/
+import './util/couch';
+
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -29,6 +31,7 @@ import cors from './cors';
 import * as register from './register';
 import * as authenticate from './authenticate';
 import * as flag from './flag';
+import * as publish from './publish';
 
 // Allows tokens that have a moderator role
 passport.use( 'moderator', authenticate.strategy );
@@ -50,6 +53,8 @@ app.get( '/register/:verification', register.verify );
 
 app.post( '/authenticate', authenticate.default );
 app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
+
+app.post( '/publish', publish.default );
 
 // Used by our Elastic Load Balacers
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );

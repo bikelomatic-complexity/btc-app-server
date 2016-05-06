@@ -22,11 +22,7 @@ import config from 'config';
 
 import { User, UserCollection } from 'btc-models';
 import { mail } from './util/mailer';
-import { connect } from './util/couch';
 import { createToken } from './authenticate';
-
-// Connect our User models to the database
-connect( '_users', User, UserCollection );
 
 // ## Apply Route
 // Apply for a new Bicycle Touring Companion account
