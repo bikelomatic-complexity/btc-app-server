@@ -24,6 +24,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import validator from 'express-validator';
+import multer from 'multer';
 
 import passport from './util/passport'; // passport with customizations
 
@@ -54,7 +55,9 @@ app.get( '/register/:verification', register.verify );
 app.post( '/authenticate', authenticate.default );
 app.get( '/flags', passport.authenticate( 'moderator' ), flag.list );
 
-app.post( '/publish', publish.default );
+const storage = multer.memoryStorage();
+const upload = multer( { storage } );
+app.post( '/publish', upload.array( 'covers' ), publish.default );
 
 // Used by our Elastic Load Balacers
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );

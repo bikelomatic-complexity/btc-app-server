@@ -19,7 +19,7 @@
 
 import { PointCollection } from 'btc-models';
 
-import { isArray } from 'lodash';
+import { isArray, isNumber } from 'lodash';
 
 // Endpoint to publish multiple point updates
 //
@@ -29,30 +29,45 @@ import { isArray } from 'lodash';
 // replacing models with more recent updates. Then, save the models back to
 // the database. TODO: investigate bulk save to the database.
 export default function publish( req, res ) {
-  if ( !isArray( req.body ) ) {
+  const models = JSON.parse( req.body.models );
+  if ( !isArray( models ) ) {
     res.status( 400 ).send( 'you can only publish an array of models' );
   }
 
-  const existing = new PointCollection();
-  existing.fetch( {
-    keys: req.body.map( doc => doc._id )
-  } ).then( ( ) => {
+  const existing = new PointCollection( [], {
+    keys: models.map( doc => doc._id )
+  } );
+  existing.fetch().then( ( ) => {
     try {
-      const incoming = new PointCollection( req.body );
-
-      Promise.all(
-        mergeLatest( existing.models, incoming.models ).map(
-          model => model.save()
-        )
-      ).then(
-        ( ) => res.status( 200 ).send( 'points saved successfully' )
-      ).catch(
-        err => res.status( 400 ).send( err )
-      );
+      return new PointCollection( models, { deindex: true } );
     } catch ( err ) {
       res.status( 400 ).send( err );
     }
-  } );
+  } ).then( incoming => {
+    existing.comparator = incoming.comparator = '_id';
+    existing.sort();
+    incoming.sort();
+
+    return mergeLatest( existing.models, incoming.models );
+  } ).then( merged => {
+    return Promise.all(
+      merged.map( model => {
+        const promise = model.save();
+        if ( isNumber( model.index ) ) {
+          const buffer = req.files[ model.index ].buffer;
+          return promise.then(
+            ( ) => model.attach( buffer, 'cover.png', 'image/png' )
+          );
+        } else {
+          return promise;
+        }
+      } )
+    );
+  } ).then(
+    ( ) => res.status( 200 ).send( 'points saved successfully' )
+  ).catch(
+    err => res.status( 400 ).send( err )
+  );
 }
 
 // The bicycle touring companion merge-on-publish algorithm:
@@ -78,7 +93,8 @@ export function mergeLatest( existing, incoming ) {
   let i = 0;
   while ( i < incoming.length ) {
     const im = incoming[ i ];
-    im.omit( '_rev' );
+    im.unset( '_rev' );
+    im.unset( '_attachments' );
 
     if ( e >= existing.length ) {
       merged.push( im );
