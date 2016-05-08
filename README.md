@@ -45,3 +45,8 @@ If you are developing locally, it could be the case that your images will get
 redirected and loaded through a proxy after being cached. If when testing the
 emails being sent, they do not appear to load correctly, try an email server
 that does not use a proxy (e.g. https://mailinator.com/).
+
+# Updating the AWS Server
+Travis CI is set up to push new versions of btc-app-server when releases are 
+made. Simply use the github releases feature to create a new release (make
+sure it includes a new version number).
