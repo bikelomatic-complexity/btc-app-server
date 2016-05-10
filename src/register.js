@@ -18,6 +18,8 @@
  */
 
 import { pick } from 'underscore';
+import { template } from 'underscore';
+import fs from 'fs';
 import config from 'config';
 
 import { User, UserCollection } from 'btc-models';
@@ -83,6 +85,7 @@ export function verify( req, res ) {
   }
 
   const {verification} = req.params;
+  const thankYouPage = fs.readFileSync( './staticPages/thankyou.html', 'utf8' );
 
   new UserCollection().fetch( {
     // Look for an unverified user with a matching verification token. If that
@@ -93,7 +96,7 @@ export function verify( req, res ) {
         user.unset( 'verification' );
         user.save( { verified: true }, {
           force: true,
-          success: ( model, response, options ) => res.status( 200 ).end(),
+          success: ( model, response, options ) => res.send( template( thankYouPage )() ),
           error: ( model, response, options ) => res.status( 500 ).end()
         } );
         if ( user.validationError ) {

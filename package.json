@@ -1,6 +1,6 @@
 {
   "name": "btc-app-server",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Node Server",
   "main": "es5/src/index.js",
   "dependencies": {
@@ -43,15 +43,16 @@
   },
   "scripts": {
     "prepublish": "babel src -d lib",
-    "format:replace": "esformatter -i '?(src|test)/**/*.js'",
-    "format": "esformatter --diff '?(src|test)/**/*.js'",
-    "lint": "eslint '?(src|test)/**/*.js'",
+    "prestart": "babel src -d lib",
+    "format": "esformatter --diff \"?(src|test)/**/*.js\"",
+    "format:replace": "esformatter -i \"?(src|test)/**/*.js\"",
+    "lint": "eslint \"?(src|test)/**/*.js\"",
     "doc": "docco src/*.js src/*/*.js",
     "start": "node lib/index.js",
     "clean": "rm -r lib",
     "//": "you must run the unit tests with NODE_ENV=test",
     "preunit": "babel test -d .test",
-    "unit": "mocha '.test/**/*.js' --require './shim'",
+    "unit": "mocha \".test/**/*.js\" --require \"./shim\"",
     "test": "nyc npm run unit",
     "report": "nyc report --reporter=text-lcov | coveralls",
     "coverage": "nyc report --reporter=lcov"

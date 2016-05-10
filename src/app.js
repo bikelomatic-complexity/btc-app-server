@@ -17,7 +17,7 @@
  * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-/*global process*/
+/*global process, __dirname*/
 import './util/couch';
 
 import express from 'express';
@@ -61,3 +61,6 @@ app.post( '/publish', upload.array( 'covers' ), publish.default );
 
 // Used by our Elastic Load Balacers
 app.get( '/health', ( req, res ) => res.status( 200 ).send( 'ok' ) );
+
+// Host the static content of staticPages
+app.use( express.static( __dirname + '/../staticPages' ) );
