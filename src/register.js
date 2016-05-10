@@ -22,7 +22,7 @@ import { template } from 'underscore';
 import fs from 'fs';
 import config from 'config';
 
-import { User, UserCollection } from 'btc-models';
+import { User, UserRefCollection } from 'btc-models';
 import { mail } from './util/mailer';
 import { createToken } from './authenticate';
 
@@ -87,7 +87,7 @@ export function verify( req, res ) {
   const {verification} = req.params;
   const thankYouPage = fs.readFileSync( './staticPages/thankyou.html', 'utf8' );
 
-  new UserCollection().fetch( {
+  new UserRefCollection().fetch( {
     // Look for an unverified user with a matching verification token. If that
     // user really exists, then mark them verified.
     success: ( users, response, options ) => {

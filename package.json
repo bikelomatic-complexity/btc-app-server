@@ -1,6 +1,6 @@
 {
   "name": "btc-app-server",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Node Server",
   "main": "es5/src/index.js",
   "dependencies": {
@@ -8,7 +8,7 @@
     "backbone": "^1.2.3",
     "backbone-pouch": "^1.5.0",
     "body-parser": "^1.14.1",
-    "btc-models": "^0.2.0",
+    "btc-models": "^0.4.2",
     "config": "^1.19.0",
     "express": "^4.13.3",
     "express-validator": "^2.19.1",
@@ -43,7 +43,6 @@
   },
   "scripts": {
     "prepublish": "babel src -d lib",
-    "prestart": "babel src -d lib",
     "format": "esformatter --diff \"?(src|test)/**/*.js\"",
     "format:replace": "esformatter -i \"?(src|test)/**/*.js\"",
     "lint": "eslint \"?(src|test)/**/*.js\"",

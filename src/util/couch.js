@@ -24,7 +24,7 @@
 // goal is to keep model code unaware of connection details. We are not able
 // to separate PouchDB Sync options from the model code, however.
 
-import { connectMut, models, User, UserCollection, Login } from 'btc-models';
+import { connectMut, models, User, UserCollection, Login, UserRef, UserRefCollection } from 'btc-models';
 
 import PouchDB from 'pouchdb';
 import nano from 'nano';
@@ -42,7 +42,7 @@ const _usersUrl = root + '/' + '_users';
 const _users = ( process.env.NODE_ENV === 'test' ) ?
   new PouchDB( '_users' ) :
   new PouchDB( _usersUrl, { auth: { username, password } } );
-connectMut( _users, [ User, UserCollection, Login ] );
+connectMut( _users, [ User, UserCollection, Login, UserRef, UserRefCollection ] );
 
 // Export a nano driver on the CouchDB database, useful for dealing with
 // users and authentication.
